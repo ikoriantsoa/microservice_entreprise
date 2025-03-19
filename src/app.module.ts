@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { EntrepriseModule } from './entreprise/entreprise.module';
 import { CryptageModule } from './cryptage/cryptage.module';
 import { EntrepriseEntity } from './entreprise/entity/entreprise.entity';
+import { LoggerModule } from './logger/logger.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { EntrepriseEntity } from './entreprise/entity/entreprise.entity';
     }),
     EntrepriseModule,
     CryptageModule,
+    LoggerModule,
   ],
 })
 export class AppModule {}

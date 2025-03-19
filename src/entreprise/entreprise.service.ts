@@ -4,6 +4,7 @@ import { EntrepriseEntity } from './entity/entreprise.entity';
 import { Repository } from 'typeorm';
 import { CryptageService } from 'src/cryptage/cryptage.service';
 import { ICreateEntreprise } from './entity/ICreateEntreprise';
+import { LoggerService } from 'src/logger/logger.service';
 
 @Injectable()
 export class EntrepriseService {
@@ -11,9 +12,11 @@ export class EntrepriseService {
     @InjectRepository(EntrepriseEntity)
     private readonly entrepriseRepository: Repository<EntrepriseEntity>,
     private readonly cryptageService: CryptageService,
+    private readonly logger: LoggerService,
   ) {}
 
   public async createEntreprise(newEntreprise: ICreateEntreprise) {
+    this.logger.log(`Service qui permet de créer un comte entreprise`);
     const cryptEntreprise = {
       keycloak_id: newEntreprise.keycloak_id,
       username: this.cryptageService.encrypt(newEntreprise.username),
@@ -29,6 +32,8 @@ export class EntrepriseService {
     };
 
     const entreprise = this.entrepriseRepository.create(cryptEntreprise);
+
+    this.logger.log(`Enregistrement dans la base de données`);
     return await this.entrepriseRepository.save(entreprise);
   }
 }
